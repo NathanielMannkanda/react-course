@@ -4,8 +4,9 @@ import { formatMoney } from "../../utils/money"
 
 export function CartItemDetails({ cartItem, loadCart }) {
 
-  const [isUpdatingQuantity, setIsUpdatingQuantity] = useState(false)
-  
+  const [isUpdatingQuantity, setIsUpdatingQuantity] = useState(false);
+  const [quantity, setQuantity] = useState(cartItem.quantity);
+
   const deleteCartItem = async () => {
     await axios.delete(`/api/cart-items/${cartItem.productId}`);
     await loadCart();
@@ -18,8 +19,12 @@ export function CartItemDetails({ cartItem, loadCart }) {
       setIsUpdatingQuantity(true)
     }
   };
-  
-  
+
+  const updateQuantityInput = (event) => {
+    setQuantity(event.target.value)
+  };
+
+
   return (
     <>
       <img className="product-image"
@@ -35,12 +40,17 @@ export function CartItemDetails({ cartItem, loadCart }) {
         <div className="product-quantity">
           <span>
             Quantity: {isUpdatingQuantity ?
-            <input type="text" className="quantity-textbox"/>
-            : <span className="quantity-label">{cartItem.quantity}</span>
+              <input
+                type="text"
+                className="quantity-textbox"
+                value={quantity}
+                onChange={updateQuantityInput}
+              />
+              : <span className="quantity-label">{cartItem.quantity}</span>
             }
-            
+
           </span>
-          <span className="update-quantity-link link-primary" 
+          <span className="update-quantity-link link-primary"
             onClick={updateQuantity}>
             Update
           </span>
