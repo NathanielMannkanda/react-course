@@ -1,18 +1,23 @@
+import { useNavigate } from 'react-router';
 import { useState } from 'react';
 import { Link } from 'react-router';
 import './header.css';
 
 export function Header({ cart }) {
   const [search, setSearch] = useState('');
+  const navigate = useNavigate();
 
   const updateSearchInput = (event) => {
     setSearch(event.target.value)
   };
 
+
   const searchProducts = () => {
-    console.log(search)
-  }
-;
+    console.log(search);
+    navigate(`/?search=${search}`);
+
+  };
+
   let totalQuantity = 0;
 
   cart.forEach((cartItem) => {
