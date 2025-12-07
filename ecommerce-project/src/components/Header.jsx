@@ -1,11 +1,14 @@
-import { useNavigate } from 'react-router';
 import { useState } from 'react';
-import { Link } from 'react-router';
+import { Link, useNavigate, useSearchParams } from 'react-router';
 import './header.css';
 
 export function Header({ cart }) {
-  const [search, setSearch] = useState('');
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+
+  const searchText = searchParams.get('search');
+
+  const [search, setSearch] = useState(searchText || '');
 
   const updateSearchInput = (event) => {
     setSearch(event.target.value)
@@ -13,7 +16,6 @@ export function Header({ cart }) {
 
 
   const searchProducts = () => {
-    console.log(search);
     navigate(`/?search=${search}`);
 
   };
