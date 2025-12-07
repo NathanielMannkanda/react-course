@@ -12,9 +12,13 @@ export function CartItemDetails({ cartItem, loadCart }) {
     await loadCart();
   }
 
-  const updateQuantity = () => {
+  const updateQuantity = async () => {
     if (isUpdatingQuantity) {
-      setIsUpdatingQuantity(false)
+      await axios.post(`/api/cart-items/${cartItem.productId}`, {
+        quantity: Number(quantity)
+      });
+      await loadCart();
+      setIsUpdatingQuantity(false);
     } else {
       setIsUpdatingQuantity(true)
     }
